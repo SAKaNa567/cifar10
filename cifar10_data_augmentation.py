@@ -47,9 +47,8 @@ class CIFAR10Dataset():
         else:
             data = data.astype("float32")
             data /= 255
-            # shape = (data.shape[0],) + self.image_shape
-            # data = data.reshape(shape)
-            #
+            shape = (data.shape[0],) + self.image_shape
+            data = data.reshape(shape)
         return data
 
 class Trainer():
@@ -105,7 +104,7 @@ dataset = CIFAR10Dataset()
 model = network(dataset.image_shape, dataset.num_classes)
 x_train, y_train, x_test, y_test = dataset.get_batch()
 trainer = Trainer(model, loss="categorical_crossentropy", optimizer=RMSprop())
-trainer.train(x_train, y_train, batch_size=128, epochs=12, validation_split=0.2)
+trainer.train(x_train, y_train, batch_size=128, epochs=15, validation_split=0.2)
 
 score = model.evaluate(x_test, y_test, verbose=0)
 print("Test loss:", score[0])
